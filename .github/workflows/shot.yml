@@ -25,6 +25,8 @@ jobs:
             adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
             sleep 3
             adb exec-out screencap -p > shot.png
+            adb logcat -d -b crash > crash.txt 2>&1 || true
+            adb logcat -d | grep -A5 "AndroidRuntime" | tail -40 >> crash.txt 2>&1 || true
             adb shell input swipe 960 520 960 160 300
             sleep 2
             adb exec-out screencap -p > shot2.png
@@ -32,4 +34,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: shot
-          path: shot*.png
+          path: |
+            shot*.png
+            crash.txt
