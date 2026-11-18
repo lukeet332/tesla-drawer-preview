@@ -1,0 +1,5 @@
+classes/com/mg4/preview/R$drawable.class
+classes/com/mg4/preview/R$string.class
+classes/com/mg4/preview/R.class
+classes/com/mg4/preview/MainActivity$1.class
+classes/com/mg4/preview/MainActivity.class
