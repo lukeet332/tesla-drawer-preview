@@ -14,11 +14,16 @@ jobs:
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1920x720
           script: |
+            adb shell settings put global hide_error_dialogs 1
             adb shell wm size 1920x720; adb shell wm density 160
             adb shell wm density 160
             adb install -r build/preview.apk
             adb shell settings put global hide_error_dialogs 1; adb shell am start -n com.mg4.preview/.MainActivity
-            sleep 6
+            sleep 5
+            adb shell input keyevent KEYCODE_BACK
+            adb shell input tap 632 421
+            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
+            sleep 3
             adb exec-out screencap -p > shot.png
             ls -l shot.png
       - uses: actions/upload-artifact@v4

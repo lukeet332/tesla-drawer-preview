@@ -139,6 +139,8 @@ public final class MainActivity extends Activity {
         LinearLayout wrap = new LinearLayout(this);
         wrap.setOrientation(LinearLayout.HORIZONTAL);
         wrap.setGravity(Gravity.CENTER);
+        wrap.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{0x00000000, BG_BOT, BG_BOT}));
         LinearLayout.LayoutParams wlp = new LinearLayout.LayoutParams(-1, dp(90));
         wlp.setMargins(0, dp(8), 0, 0);
         wrap.addView(row, new LinearLayout.LayoutParams(-2, dp(86)));
