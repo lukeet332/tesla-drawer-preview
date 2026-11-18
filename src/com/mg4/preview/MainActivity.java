@@ -21,7 +21,7 @@ import java.util.List;
  */
 public final class MainActivity extends Activity {
     private static final int BG_TOP = 0xFF0B0D10, BG_BOT = 0xFF15181D;
-    private static final int SHEET = 0xFF101318, TEXT = 0xFFF2F3F5, SUB = 0xFF8E959E;
+    private static final int SHEET = 0xFF171B21, TEXT = 0xFFF2F3F5, SUB = 0xFF9AA1AA;
     private float d;
     private final List<View> cells = new ArrayList<>();
     private View sheet;
@@ -44,7 +44,7 @@ public final class MainActivity extends Activity {
 
         // car hero, as on the Tesla home screen
         ImageView car = new ImageView(this);
-        car.setImageResource(icon("car_base"));
+        car.setImageResource(img("car_base"));
         car.setAdjustViewBounds(true);
         FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(dp(860), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
         clp.topMargin = dp(34);
@@ -70,6 +70,7 @@ public final class MainActivity extends Activity {
         sheetBg.setColor(SHEET);
         sheetBg.setCornerRadii(new float[]{dp(26), dp(26), dp(26), dp(26), 0, 0, 0, 0});
         tray.setBackground(sheetBg);
+        tray.setElevation(dp(18));
         tray.setPadding(dp(40), dp(14), dp(40), dp(10));
 
         View grab = new View(this);
@@ -108,7 +109,7 @@ public final class MainActivity extends Activity {
         dock.setGravity(Gravity.CENTER);
         String[] dockIcons = {"phone", "radio", "music", "cam360", "gear"};
         for (int i = 0; i < dockIcons.length; i++) {
-            View v = circle(dockIcons[i], 54, 0x00000000, i == 2 ? TEXT : SUB);
+            View v = circle(dockIcons[i], 54, 0x00000000, TEXT);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(54), dp(54));
             lp.setMargins(dp(30), dp(8), dp(30), dp(4));
             dock.addView(v, lp);
@@ -171,6 +172,10 @@ public final class MainActivity extends Activity {
 
     private int icon(String name) {
         return getResources().getIdentifier("ic_" + name, "drawable", getPackageName());
+    }
+
+    private int img(String name) {
+        return getResources().getIdentifier(name, "drawable", getPackageName());
     }
 
     private TextView text(String s, float size, int color, boolean medium) {
