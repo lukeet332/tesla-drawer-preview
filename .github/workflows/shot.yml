@@ -16,7 +16,7 @@ jobs:
           script: |
             adb shell wm size 1920x720
             adb shell wm density 160
-            adb install -r preview.apk
+            adb install -r build/preview.apk
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 6
             adb exec-out screencap -p > shot.png
