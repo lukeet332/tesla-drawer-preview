@@ -91,15 +91,17 @@ public final class MainActivity extends Activity {
             if (i % 5 == 0) {
                 row = new LinearLayout(this);
                 row.setOrientation(LinearLayout.HORIZONTAL);
-                LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(-1, dp(158));
+                row.setGravity(Gravity.CENTER);
+                LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(-1, dp(200));
                 all.addView(row, rlp);
             }
             View t = tile(apps[i], mine);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, -1, 1f);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(190), -1);
+            lp.setMargins(dp(10), 0, dp(10), 0);
             row.addView(t, lp);
             tiles.add(t);
         }
-        if (row != null) for (int i = apps.length % 5; i != 0 && i < 5; i++) row.addView(new View(this), new LinearLayout.LayoutParams(0, -1, 1f));
+        
         return all;
     }
 
@@ -110,13 +112,13 @@ public final class MainActivity extends Activity {
         FrameLayout box = new FrameLayout(this);
         int bg = PANEL;
         if (mine && app.length > 2) bg = Color.parseColor(app[2]);
-        box.setBackground(round(bg, dp(26)));
+        box.setBackground(round(bg, dp(32)));
         ImageView iv = new ImageView(this);
         iv.setImageResource(icon(app[1]));
         if (mine) iv.setColorFilter(Color.WHITE);
-        box.addView(iv, new FrameLayout.LayoutParams(dp(46), dp(46), Gravity.CENTER));
-        col.addView(box, new LinearLayout.LayoutParams(dp(100), dp(100)));
-        TextView label = text(app[0], 17, TEXT, true);
+        box.addView(iv, new FrameLayout.LayoutParams(dp(58), dp(58), Gravity.CENTER));
+        col.addView(box, new LinearLayout.LayoutParams(dp(128), dp(128)));
+        TextView label = text(app[0], 18, TEXT, true);
         label.setGravity(Gravity.CENTER);
         label.setSingleLine(true);
         col.addView(label, new LinearLayout.LayoutParams(-1, -2));
