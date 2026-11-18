@@ -19,11 +19,10 @@ jobs:
             adb shell wm density 160
             adb install -r build/preview.apk
             adb shell settings put global hide_error_dialogs 1; adb shell am start -n com.mg4.preview/.MainActivity
-            sleep 5
-            adb shell input keyevent KEYCODE_BACK
-            adb shell input tap 632 421
-            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
+            sleep 8
+            adb shell am start -n com.mg4.preview/.MainActivity
             sleep 3
+            adb shell dumpsys window | grep mCurrentFocus
             adb exec-out screencap -p > shot.png
             adb logcat -d -b crash > crash.txt 2>&1 || true
             adb logcat -d | grep -A5 "AndroidRuntime" | tail -40 >> crash.txt 2>&1 || true
