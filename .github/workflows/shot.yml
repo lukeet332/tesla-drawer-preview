@@ -12,9 +12,9 @@ jobs:
           target: default
           arch: x86
           disable-animations: false
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1920x720
           script: |
-            adb shell wm size 1920x720
+            adb shell wm size 1920x720; adb shell wm density 160
             adb shell wm density 160
             adb install -r build/preview.apk
             adb shell am start -n com.mg4.preview/.MainActivity
