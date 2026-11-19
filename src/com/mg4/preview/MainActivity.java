@@ -42,9 +42,9 @@ public final class MainActivity extends Activity {
         // soft light behind the car so it does not vanish on black
         View glow = new View(this);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x1FFFFFFF, 0x0AFFFFFF, 0x00FFFFFF});
+                new int[]{0x14FFFFFF, 0x08FFFFFF, 0x00FFFFFF});
         gd.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-        gd.setGradientRadius(dp(520));
+        gd.setGradientRadius(dp(760));
         gd.setShape(GradientDrawable.OVAL);
         glow.setBackground(gd);
         FrameLayout.LayoutParams glp = new FrameLayout.LayoutParams(dp(1200), dp(420), Gravity.TOP | Gravity.CENTER_HORIZONTAL);
@@ -54,9 +54,18 @@ public final class MainActivity extends Activity {
         ImageView car = new ImageView(this);
         car.setImageResource(img("car_base"));
         car.setAdjustViewBounds(true);
+        // the base render is a dark car: lift it without flattening the shading
+        float[] m = {1.7f,0,0,0,18, 0,1.7f,0,0,18, 0,0,1.7f,0,18, 0,0,0,1,0};
+        car.setColorFilter(new android.graphics.ColorMatrixColorFilter(new android.graphics.ColorMatrix(m)));
         FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(dp(820), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
         clp.topMargin = dp(78);
         root.addView(car, clp);
+        ImageView rim = new ImageView(this);
+        rim.setImageResource(img("car_highlight"));
+        rim.setAlpha(0.55f);
+        FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(dp(820), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        rlp.topMargin = dp(78);
+        root.addView(rim, rlp);
 
         // Tesla-like status bar
         LinearLayout status = new LinearLayout(this);
@@ -114,7 +123,7 @@ public final class MainActivity extends Activity {
                 row = new LinearLayout(this);
                 row.setOrientation(LinearLayout.HORIZONTAL);
                 row.setGravity(Gravity.CENTER);
-                grid.addView(row, new LinearLayout.LayoutParams(-1, dp(112)));
+                grid.addView(row, new LinearLayout.LayoutParams(-1, dp(122)));
             }
             View cell = cell(APPS[i]);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(196), -1);
@@ -140,7 +149,7 @@ public final class MainActivity extends Activity {
         }
         tray.addView(dock, new LinearLayout.LayoutParams(-1, -2));
 
-        FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(-1, dp(372), Gravity.BOTTOM);
+        FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(-1, dp(392), Gravity.BOTTOM);
         root.addView(tray, slp);
 
         setContentView(root);
@@ -168,11 +177,11 @@ public final class MainActivity extends Activity {
         ImageView iv = new ImageView(this);
         iv.setImageResource(icon(app[1]));
         iv.setColorFilter(Color.WHITE);
-        int size = app[2] != null ? dp(50) : dp(52);
+        int size = app[2] != null ? dp(56) : dp(58);
         box.addView(iv, new FrameLayout.LayoutParams(size, size, Gravity.CENTER));
-        int boxSize = app[2] != null ? dp(72) : dp(56);
+        int boxSize = app[2] != null ? dp(80) : dp(62);
         col.addView(box, new LinearLayout.LayoutParams(boxSize, boxSize));
-        TextView label = text(app[0], 15, SUB, false);
+        TextView label = text(app[0], 16, SUB, false);
         label.setGravity(Gravity.CENTER);
         label.setSingleLine(true);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
