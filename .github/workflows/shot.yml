@@ -32,10 +32,9 @@ jobs:
             adb shell am force-stop com.mg4.preview
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 8
-            (adb shell screenrecord --time-limit 6 /sdcard/v.mp4 &)
-            sleep 1
-            adb shell input tap 960 352
-            sleep 6
+            ( sleep 1; adb shell input tap 960 352 ) &
+            timeout 20 adb shell screenrecord --time-limit 5 /sdcard/v.mp4 || true
+            sleep 2
             sleep 2
             adb pull /sdcard/v.mp4 v.mp4 || true
             ls -l v.mp4 || true
