@@ -131,7 +131,7 @@ public final class MainActivity extends Activity {
         title.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         head.addView(title);
         head.addView(spacer());
-        TextView edit = txt("Edit", 15, s.sub, false);
+        TextView edit = txt("Edit", 16, s.sub, false);
         edit.setPadding(dp(14), dp(4), dp(14), dp(4));
         head.addView(edit);
         head.addView(circle("gear", 40, 0, s.sub));
@@ -201,7 +201,8 @@ public final class MainActivity extends Activity {
         box.addView(iv, new FrameLayout.LayoutParams(size, size, Gravity.CENTER));
         int boxSize = app[2] != null ? dp(80) : dp(62);
         col.addView(box, new LinearLayout.LayoutParams(boxSize, boxSize));
-        TextView label = txt(app[0], 17, s.sub, false);
+        TextView label = txt(app[0], 18, s.sub, false);
+        label.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         label.setGravity(Gravity.CENTER);
         label.setSingleLine(true);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
