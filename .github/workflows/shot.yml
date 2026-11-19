@@ -26,10 +26,12 @@ jobs:
             # night first (after the system has settled)
             adb shell cmd uimode night yes
             adb shell am force-stop com.mg4.preview
-            (adb shell screenrecord --time-limit 6 /sdcard/v.mp4 &)
-            sleep 1
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 8
+            (adb shell screenrecord --time-limit 6 /sdcard/v.mp4 &)
+            sleep 1
+            adb shell input tap 960 352
+            sleep 6
             adb pull /sdcard/v.mp4 v.mp4 >/dev/null 2>&1 || true
             mkdir -p frames
             ffmpeg -y -i v.mp4 -vf fps=10 frames/f_%02d.png >/dev/null 2>&1 || true

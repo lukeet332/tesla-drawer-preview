@@ -25,6 +25,7 @@ import java.util.List;
 public final class MainActivity extends Activity {
     private float d;
     private final List<View> cells = new ArrayList<>();
+    private LinearLayout tray;
 
     private int dp(float v) { return Math.round(v * d); }
 
@@ -106,7 +107,7 @@ public final class MainActivity extends Activity {
         status.addView(txt("4G", 13, s.sub, true));
         root.addView(status, new FrameLayout.LayoutParams(-1, dp(70), Gravity.TOP));
 
-        LinearLayout tray = new LinearLayout(this);
+        tray = new LinearLayout(this);
         tray.setOrientation(LinearLayout.VERTICAL);
         GradientDrawable sheetBg = new GradientDrawable();
         sheetBg.setColor(s.sheet);
@@ -173,18 +174,24 @@ public final class MainActivity extends Activity {
         root.addView(tray, new FrameLayout.LayoutParams(-1, dp(392), Gravity.BOTTOM));
 
         setContentView(root);
+        tray.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { play(); }
+        });
+        play();
+    }
+
+    /** Replays the tray entry: first show, and on tap so the motion can be filmed. */
+    private void play() {
         tray.setTranslationY(dp(50));
         tray.setAlpha(0f);
-        tray.post(new Runnable() {
-            @Override public void run() { tray.animate().translationY(0f).alpha(1f).setDuration(340).start(); }
-        });
+        tray.animate().translationY(0f).alpha(1f).setDuration(450).start();
         for (int i = 0; i < cells.size(); i++) {
             final View c = cells.get(i);
             c.setAlpha(0f);
             c.setTranslationY(dp(12));
             c.postDelayed(new Runnable() {
-                @Override public void run() { c.animate().alpha(1f).translationY(0f).setDuration(280).start(); }
-            }, 80 + i * 24L);
+                @Override public void run() { c.animate().alpha(1f).translationY(0f).setDuration(320).start(); }
+            }, 60 + i * 30L);
         }
     }
 
