@@ -42,14 +42,26 @@ public final class MainActivity extends Activity {
         // soft light behind the car so it does not vanish on black
         View glow = new View(this);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x14FFFFFF, 0x08FFFFFF, 0x00FFFFFF});
+                new int[]{0x12FFFFFF, 0x07FFFFFF, 0x00FFFFFF});
         gd.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-        gd.setGradientRadius(dp(760));
+        gd.setGradientRadius(dp(1150));
         gd.setShape(GradientDrawable.OVAL);
         glow.setBackground(gd);
-        FrameLayout.LayoutParams glp = new FrameLayout.LayoutParams(dp(1200), dp(420), Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-        glp.topMargin = dp(20);
+        FrameLayout.LayoutParams glp = new FrameLayout.LayoutParams(dp(1400), dp(480), Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        glp.topMargin = dp(0);
         root.addView(glow, glp);
+
+        // contact shadow under the car
+        View shadow = new View(this);
+        GradientDrawable sd = new GradientDrawable();
+        sd.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        sd.setColors(new int[]{0x59000000, 0x1F000000, 0x00000000});
+        sd.setGradientRadius(dp(420));
+        sd.setShape(GradientDrawable.OVAL);
+        shadow.setBackground(sd);
+        FrameLayout.LayoutParams shlp = new FrameLayout.LayoutParams(dp(760), dp(96), Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        shlp.topMargin = dp(318);
+        root.addView(shadow, shlp);
 
         ImageView car = new ImageView(this);
         car.setImageResource(img("car_base"));
