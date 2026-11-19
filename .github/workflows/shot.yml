@@ -32,6 +32,9 @@ jobs:
             adb shell am force-stop com.mg4.preview
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 8
+            adb shell svc power stayon true
+            adb shell input keyevent KEYCODE_WAKEUP
+            sleep 1
             adb shell input tap 960 352
             sleep 1
             adb exec-out screencap -p > mid.png
