@@ -14,7 +14,11 @@ jobs:
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1920x720
           script: |
-            sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 || true
+            echo "ffmpeg before: $(which ffmpeg || echo none)"
+            sudo apt-get update -qq > /tmp/apt.log 2>&1; echo "apt update rc=$?"
+            sudo apt-get install -y ffmpeg >> /tmp/apt.log 2>&1; echo "apt install rc=$?"
+            tail -6 /tmp/apt.log || true
+            echo "ffmpeg after: $(which ffmpeg || echo none)"
             adb shell settings put global hide_error_dialogs 1
             adb shell wm size 1920x720
             adb shell wm density 160
@@ -32,10 +36,12 @@ jobs:
             sleep 1
             adb shell input tap 960 352
             sleep 6
-            adb pull /sdcard/v.mp4 v.mp4 >/dev/null 2>&1 || true
+            sleep 2
+            adb pull /sdcard/v.mp4 v.mp4 || true
+            ls -l v.mp4 || true
             mkdir -p frames
-            ffmpeg -y -i v.mp4 -vf fps=10 frames/f_%02d.png >/dev/null 2>&1 || true
-            ls frames | head -3
+            ffmpeg -y -i v.mp4 -vf fps=10 frames/f_%02d.png 2>&1 | tail -6 || true
+            ls frames | wc -l
             adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
             sleep 1
             adb exec-out screencap -p > shot.png
