@@ -27,8 +27,11 @@ jobs:
             adb exec-out screencap -p > day.png
             adb shell cmd uimode night yes
             adb shell am force-stop com.mg4.preview
+            (adb shell screenrecord --time-limit 6 /sdcard/v.mp4 &)
+            sleep 1
             adb shell am start -n com.mg4.preview/.MainActivity
-            sleep 5
+            sleep 7
+            adb pull /sdcard/v.mp4 v.mp4 >/dev/null 2>&1 || true
             adb exec-out screencap -p > shot.png
             adb logcat -d -b crash > crash.txt 2>&1 || true
             adb logcat -d | grep -A5 "AndroidRuntime" | tail -40 >> crash.txt 2>&1 || true
@@ -41,4 +44,5 @@ jobs:
           name: shot
           path: |
             *.png
+            v.mp4
             crash.txt

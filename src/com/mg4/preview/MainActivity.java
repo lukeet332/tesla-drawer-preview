@@ -68,8 +68,8 @@ public final class MainActivity extends Activity {
                     new FrameLayout.LayoutParams(-1, -1));
         }
         View shadowV = new SoftGlow(this, s.shadow, 0x00000000, 0.5f, 0.5f);
-        FrameLayout.LayoutParams shlp = new FrameLayout.LayoutParams(dp(780), dp(110), Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-        shlp.topMargin = dp(320);
+        FrameLayout.LayoutParams shlp = new FrameLayout.LayoutParams(dp(720), dp(96), Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        shlp.topMargin = dp(296);
         root.addView(shadowV, shlp);
 
         ImageView car = new ImageView(this);
@@ -79,14 +79,14 @@ public final class MainActivity extends Activity {
             float[] m = {1.7f,0,0,0,18, 0,1.7f,0,0,18, 0,0,1.7f,0,18, 0,0,0,1,0};
             car.setColorFilter(new android.graphics.ColorMatrixColorFilter(new android.graphics.ColorMatrix(m)));
         }
-        FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(dp(820), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-        clp.topMargin = dp(78);
+        FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(dp(760), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        clp.topMargin = dp(44);
         root.addView(car, clp);
         ImageView rim = new ImageView(this);
         rim.setImageResource(img("car_highlight"));
         rim.setAlpha(s.night ? 0.55f : 0.30f);
-        FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(dp(820), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-        rlp.topMargin = dp(78);
+        FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(dp(760), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        rlp.topMargin = dp(44);
         root.addView(rim, rlp);
 
         LinearLayout status = new LinearLayout(this);
@@ -201,7 +201,7 @@ public final class MainActivity extends Activity {
         box.addView(iv, new FrameLayout.LayoutParams(size, size, Gravity.CENTER));
         int boxSize = app[2] != null ? dp(80) : dp(62);
         col.addView(box, new LinearLayout.LayoutParams(boxSize, boxSize));
-        TextView label = txt(app[0], 16, s.sub, false);
+        TextView label = txt(app[0], 17, s.sub, false);
         label.setGravity(Gravity.CENTER);
         label.setSingleLine(true);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
