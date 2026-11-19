@@ -11,23 +11,25 @@ public final class R {
   public static final class drawable {
     public static final int car_base=0x7f010000;
     public static final int car_shade=0x7f010001;
-    public static final int ic_bolt=0x7f010002;
-    public static final int ic_book=0x7f010003;
-    public static final int ic_cam360=0x7f010004;
-    public static final int ic_car=0x7f010005;
-    public static final int ic_chart=0x7f010006;
-    public static final int ic_cloud=0x7f010007;
-    public static final int ic_fan=0x7f010008;
-    public static final int ic_folder=0x7f010009;
-    public static final int ic_gear=0x7f01000a;
-    public static final int ic_music=0x7f01000b;
-    public static final int ic_nav=0x7f01000c;
-    public static final int ic_phone=0x7f01000d;
-    public static final int ic_radio=0x7f01000e;
-    public static final int ic_route=0x7f01000f;
-    public static final int ic_user=0x7f010010;
-    public static final int ic_video=0x7f010011;
-    public static final int ic_wave=0x7f010012;
+    public static final int ic_bluetooth=0x7f010002;
+    public static final int ic_bolt=0x7f010003;
+    public static final int ic_book=0x7f010004;
+    public static final int ic_cam360=0x7f010005;
+    public static final int ic_car=0x7f010006;
+    public static final int ic_chart=0x7f010007;
+    public static final int ic_cloud=0x7f010008;
+    public static final int ic_fan=0x7f010009;
+    public static final int ic_folder=0x7f01000a;
+    public static final int ic_gear=0x7f01000b;
+    public static final int ic_music=0x7f01000c;
+    public static final int ic_nav=0x7f01000d;
+    public static final int ic_phone=0x7f01000e;
+    public static final int ic_radio=0x7f01000f;
+    public static final int ic_route=0x7f010010;
+    public static final int ic_user=0x7f010011;
+    public static final int ic_video=0x7f010012;
+    public static final int ic_wave=0x7f010013;
+    public static final int ic_wifi=0x7f010014;
   }
   public static final class string {
     public static final int app_name=0x7f020000;

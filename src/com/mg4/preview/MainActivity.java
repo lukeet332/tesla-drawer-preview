@@ -15,16 +15,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Tesla-style app tray preview: the car stays the hero, the tray is a sheet that slides up
- * over it, icons sit directly on the sheet (no chips), and a dock runs along the bottom.
- */
+/** Tesla-style app tray: status bar, car hero over a soft glow, sheet with plain icons and a dock. */
 public final class MainActivity extends Activity {
-    private static final int BG_TOP = 0xFF0B0D10, BG_BOT = 0xFF15181D;
-    private static final int SHEET = 0xFF171B21, TEXT = 0xFFF2F3F5, SUB = 0xFF9AA1AA;
+    private static final int BG_TOP = 0xFF14171C, BG_BOT = 0xFF0A0C0F;
+    private static final int SHEET = 0xFF1A1E24, TEXT = 0xFFF2F3F5, SUB = 0xFF9AA1AA;
+    private static final int ACCENT = 0xFF4A90E2;
     private float d;
     private final List<View> cells = new ArrayList<>();
-    private View sheet;
 
     private int dp(float v) { return Math.round(v * d); }
 
@@ -42,66 +39,93 @@ public final class MainActivity extends Activity {
         FrameLayout root = new FrameLayout(this);
         root.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{BG_TOP, BG_BOT}));
 
-        // car hero, as on the Tesla home screen
+        // soft light behind the car so it does not vanish on black
+        View glow = new View(this);
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{0x1FFFFFFF, 0x0AFFFFFF, 0x00FFFFFF});
+        gd.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        gd.setGradientRadius(dp(520));
+        gd.setShape(GradientDrawable.OVAL);
+        glow.setBackground(gd);
+        FrameLayout.LayoutParams glp = new FrameLayout.LayoutParams(dp(1200), dp(420), Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        glp.topMargin = dp(20);
+        root.addView(glow, glp);
+
         ImageView car = new ImageView(this);
         car.setImageResource(img("car_base"));
         car.setAdjustViewBounds(true);
-        FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(dp(860), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-        clp.topMargin = dp(34);
+        FrameLayout.LayoutParams clp = new FrameLayout.LayoutParams(dp(820), -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        clp.topMargin = dp(78);
         root.addView(car, clp);
 
-        // small top bar
-        LinearLayout bar = new LinearLayout(this);
-        bar.setOrientation(LinearLayout.HORIZONTAL);
-        bar.setGravity(Gravity.CENTER_VERTICAL);
-        bar.setPadding(dp(36), dp(22), dp(36), 0);
-        bar.addView(text("Apps", 30, TEXT, true));
-        bar.addView(spacer());
-        TextView edit = text("Edit", 16, SUB, false);
-        edit.setPadding(dp(16), dp(6), dp(16), dp(6));
-        bar.addView(edit);
-        bar.addView(circle("gear", 44, 0x00000000, SUB));
-        root.addView(bar, new FrameLayout.LayoutParams(-1, dp(80), Gravity.TOP));
+        // Tesla-like status bar
+        LinearLayout status = new LinearLayout(this);
+        status.setOrientation(LinearLayout.HORIZONTAL);
+        status.setGravity(Gravity.CENTER_VERTICAL);
+        status.setPadding(dp(34), dp(18), dp(34), 0);
+        status.addView(text("11:51", 17, TEXT, true));
+        status.addView(spacer());
+        status.addView(text("13°C", 16, SUB, false));
+        status.addView(space(dp(22)));
+        status.addView(circle("user", 26, 0, SUB));
+        status.addView(space(dp(16)));
+        status.addView(circle("wifi", 24, 0, SUB));
+        status.addView(space(dp(14)));
+        status.addView(circle("bluetooth", 22, 0, SUB));
+        status.addView(space(dp(14)));
+        status.addView(text("4G", 13, SUB, true));
+        root.addView(status, new FrameLayout.LayoutParams(-1, dp(70), Gravity.TOP));
 
-        // the tray
+        // sheet
         LinearLayout tray = new LinearLayout(this);
         tray.setOrientation(LinearLayout.VERTICAL);
         GradientDrawable sheetBg = new GradientDrawable();
         sheetBg.setColor(SHEET);
-        sheetBg.setCornerRadii(new float[]{dp(26), dp(26), dp(26), dp(26), 0, 0, 0, 0});
+        sheetBg.setCornerRadii(new float[]{dp(28), dp(28), dp(28), dp(28), 0, 0, 0, 0});
         tray.setBackground(sheetBg);
-        tray.setElevation(dp(18));
-        tray.setPadding(dp(40), dp(14), dp(40), dp(10));
+        tray.setElevation(dp(20));
+        tray.setPadding(dp(44), dp(12), dp(44), dp(8));
 
         View grab = new View(this);
-        grab.setBackground(round(0xFF3A4049, dp(2)));
-        LinearLayout.LayoutParams glp = new LinearLayout.LayoutParams(dp(44), dp(4));
-        glp.gravity = Gravity.CENTER_HORIZONTAL;
-        tray.addView(grab, glp);
+        grab.setBackground(round(0xFF3C434C, dp(2)));
+        LinearLayout.LayoutParams grlp = new LinearLayout.LayoutParams(dp(46), dp(4));
+        grlp.gravity = Gravity.CENTER_HORIZONTAL;
+        tray.addView(grab, grlp);
+
+        LinearLayout head = new LinearLayout(this);
+        head.setOrientation(LinearLayout.HORIZONTAL);
+        head.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams hlp = new LinearLayout.LayoutParams(-1, dp(44));
+        hlp.topMargin = dp(6);
+        tray.addView(head, hlp);
+        head.addView(text("Apps", 21, TEXT, true));
+        head.addView(spacer());
+        TextView edit = text("Edit", 15, SUB, false);
+        edit.setPadding(dp(14), dp(4), dp(14), dp(4));
+        head.addView(edit);
+        head.addView(circle("gear", 40, 0, SUB));
 
         LinearLayout grid = new LinearLayout(this);
         grid.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams gridLp = new LinearLayout.LayoutParams(-1, -2);
-        gridLp.topMargin = dp(18);
-        tray.addView(grid, gridLp);
+        tray.addView(grid, new LinearLayout.LayoutParams(-1, -2));
         LinearLayout row = null;
         for (int i = 0; i < APPS.length; i++) {
             if (i % 5 == 0) {
                 row = new LinearLayout(this);
                 row.setOrientation(LinearLayout.HORIZONTAL);
-                grid.addView(row, new LinearLayout.LayoutParams(-1, dp(118)));
+                row.setGravity(Gravity.CENTER);
+                grid.addView(row, new LinearLayout.LayoutParams(-1, dp(112)));
             }
             View cell = cell(APPS[i]);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(190), -1);
-            lp.setMargins(dp(8), 0, dp(8), 0);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(196), -1);
             row.addView(cell, lp);
             cells.add(cell);
         }
 
         View line = new View(this);
-        line.setBackgroundColor(0xFF242A31);
+        line.setBackgroundColor(0xFF2A3038);
         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(-1, dp(1));
-        llp.topMargin = dp(6);
+        llp.topMargin = dp(4);
         tray.addView(line, llp);
 
         LinearLayout dock = new LinearLayout(this);
@@ -109,32 +133,29 @@ public final class MainActivity extends Activity {
         dock.setGravity(Gravity.CENTER);
         String[] dockIcons = {"phone", "radio", "music", "cam360", "gear"};
         for (int i = 0; i < dockIcons.length; i++) {
-            View v = circle(dockIcons[i], 54, 0x00000000, TEXT);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(54), dp(54));
-            lp.setMargins(dp(30), dp(8), dp(30), dp(4));
+            View v = circle(dockIcons[i], 46, 0, i == 2 ? ACCENT : TEXT);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(46), dp(46));
+            lp.setMargins(dp(34), dp(6), dp(34), dp(2));
             dock.addView(v, lp);
         }
         tray.addView(dock, new LinearLayout.LayoutParams(-1, -2));
 
-        FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(-1, dp(410), Gravity.BOTTOM);
+        FrameLayout.LayoutParams slp = new FrameLayout.LayoutParams(-1, dp(372), Gravity.BOTTOM);
         root.addView(tray, slp);
-        sheet = tray;
 
         setContentView(root);
-        tray.setTranslationY(dp(60));
+        tray.setTranslationY(dp(50));
         tray.setAlpha(0f);
         tray.post(new Runnable() {
-            @Override public void run() {
-                tray.animate().translationY(0f).alpha(1f).setDuration(320).start();
-            }
+            @Override public void run() { tray.animate().translationY(0f).alpha(1f).setDuration(340).start(); }
         });
         for (int i = 0; i < cells.size(); i++) {
             final View c = cells.get(i);
             c.setAlpha(0f);
-            c.setTranslationY(dp(10));
+            c.setTranslationY(dp(12));
             c.postDelayed(new Runnable() {
-                @Override public void run() { c.animate().alpha(1f).translationY(0f).setDuration(260).start(); }
-            }, 60 + i * 22L);
+                @Override public void run() { c.animate().alpha(1f).translationY(0f).setDuration(280).start(); }
+            }, 80 + i * 24L);
         }
     }
 
@@ -143,19 +164,19 @@ public final class MainActivity extends Activity {
         col.setOrientation(LinearLayout.VERTICAL);
         col.setGravity(Gravity.CENTER);
         FrameLayout box = new FrameLayout(this);
-        if (app[2] != null) box.setBackground(round(Color.parseColor(app[2]), dp(16)));
+        if (app[2] != null) box.setBackground(round(Color.parseColor(app[2]), dp(18)));
         ImageView iv = new ImageView(this);
         iv.setImageResource(icon(app[1]));
         iv.setColorFilter(Color.WHITE);
-        int size = app[2] != null ? dp(52) : dp(54);
+        int size = app[2] != null ? dp(50) : dp(52);
         box.addView(iv, new FrameLayout.LayoutParams(size, size, Gravity.CENTER));
-        int boxSize = app[2] != null ? dp(74) : dp(62);
+        int boxSize = app[2] != null ? dp(72) : dp(56);
         col.addView(box, new LinearLayout.LayoutParams(boxSize, boxSize));
-        TextView label = text(app[0], 14, SUB, false);
+        TextView label = text(app[0], 15, SUB, false);
         label.setGravity(Gravity.CENTER);
         label.setSingleLine(true);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
-        lp.topMargin = dp(6);
+        lp.topMargin = dp(8);
         col.addView(label, lp);
         return col;
     }
@@ -166,8 +187,14 @@ public final class MainActivity extends Activity {
         ImageView iv = new ImageView(this);
         iv.setImageResource(icon(icon));
         iv.setColorFilter(tint);
-        f.addView(iv, new FrameLayout.LayoutParams(dp(size * 0.5f), dp(size * 0.5f), Gravity.CENTER));
+        f.addView(iv, new FrameLayout.LayoutParams(dp(size * 0.55f), dp(size * 0.55f), Gravity.CENTER));
         return f;
+    }
+
+    private View space(int px) {
+        View v = new View(this);
+        v.setLayoutParams(new LinearLayout.LayoutParams(px, 1));
+        return v;
     }
 
     private int icon(String name) {
