@@ -9,7 +9,7 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y ffmpeg
           mkdir -p keyed
-          for i in $(seq -w 1 12); do
+          for i in $(seq -w 1 22); do
             ffmpeg -y -i spin/s_$i.png -vf "colorkey=0x0b0f14:0.10:0.05,format=rgba" keyed/k_$i.png
           done
           ls -l keyed | head -4
