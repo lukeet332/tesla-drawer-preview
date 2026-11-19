@@ -40,5 +40,5 @@ jobs:
         with:
           name: shot
           path: |
-            shot*.png
+            *.png
             crash.txt
