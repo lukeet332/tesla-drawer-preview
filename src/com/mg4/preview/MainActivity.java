@@ -26,6 +26,7 @@ public final class MainActivity extends Activity {
     private float d;
     private final List<View> cells = new ArrayList<>();
     private LinearLayout tray;
+    private int plays;
 
     private int dp(float v) { return Math.round(v * d); }
 
@@ -182,15 +183,18 @@ public final class MainActivity extends Activity {
 
     /** Replays the tray entry: first show, and on tap so the motion can be filmed. */
     private void play() {
-        tray.setTranslationY(dp(50));
+        // first show is Tesla-quick; repeats are slowed so a screenshot can catch them mid-flight
+        int trayMs = plays++ == 0 ? 450 : 4000;
+        int cellMs = trayMs > 1000 ? 3000 : 320;
+        tray.setTranslationY(dp(60));
         tray.setAlpha(0f);
-        tray.animate().translationY(0f).alpha(1f).setDuration(450).start();
+        tray.animate().translationY(0f).alpha(1f).setDuration(trayMs).start();
         for (int i = 0; i < cells.size(); i++) {
             final View c = cells.get(i);
             c.setAlpha(0f);
             c.setTranslationY(dp(12));
             c.postDelayed(new Runnable() {
-                @Override public void run() { c.animate().alpha(1f).translationY(0f).setDuration(320).start(); }
+                @Override public void run() { c.animate().alpha(1f).translationY(0f).setDuration(cellMs).start(); }
             }, 60 + i * 30L);
         }
     }
