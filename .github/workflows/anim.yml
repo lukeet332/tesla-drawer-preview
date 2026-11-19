@@ -1,0 +1,27 @@
+name: ready-animation
+on: workflow_dispatch
+jobs:
+  anim:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Emulator + frames
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          target: default
+          arch: x86
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1920x720
+          script: |
+            sleep 20
+            adb install -r launcher.apk
+            adb shell am start -n com.mg4.launcher/.AnimDemoActivity
+            sleep 15
+            mkdir -p frames
+            adb pull /sdcard/Android/data/com.mg4.launcher/files/ frames/ || true
+            ls frames | wc -l
+            ls frames | head -3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frames
+          path: frames/*.png
