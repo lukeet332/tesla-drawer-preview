@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Emulator + frames
+      - name: Emulator + recording
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 28
@@ -13,15 +13,20 @@ jobs:
           arch: x86
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1920x720
           script: |
+            adb shell svc power stayon true
             sleep 20
             adb install -r launcher.apk
             adb shell am start -n com.mg4.launcher/.AnimDemoActivity
-            sleep 15
-            mkdir -p frames
-            adb pull /sdcard/Android/data/com.mg4.launcher/files/ frames/ || true
-            ls frames | wc -l
-            ls frames | head -3
+            sleep 5
+            adb shell input keyevent KEYCODE_WAKEUP
+            adb shell screenrecord --time-limit 10 /sdcard/anim.mp4 || true
+            sleep 2
+            adb pull /sdcard/anim.mp4 anim.mp4 || true
+            ls -l anim.mp4 || true
+            adb exec-out screencap -p > final.png || true
       - uses: actions/upload-artifact@v4
         with:
-          name: frames
-          path: frames/*.png
+          name: anim
+          path: |
+            anim.mp4
+            final.png
