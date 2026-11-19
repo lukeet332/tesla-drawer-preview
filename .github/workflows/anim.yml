@@ -17,9 +17,10 @@ jobs:
             sleep 20
             adb install -r launcher.apk
             adb shell am start -n com.mg4.launcher/.AnimDemoActivity
-            sleep 5
+            sleep 6
             adb shell input keyevent KEYCODE_WAKEUP
-            adb shell screenrecord --time-limit 10 /sdcard/anim.mp4 || true
+            adb shell wm dismiss-keyguard || true
+            adb shell screenrecord --time-limit 12 /sdcard/anim.mp4 || true
             sleep 2
             adb pull /sdcard/anim.mp4 anim.mp4 || true
             ls -l anim.mp4 || true
