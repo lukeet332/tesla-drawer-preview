@@ -3,4 +3,5 @@ classes/com/mg4/preview/R$string.class
 classes/com/mg4/preview/R.class
 classes/com/mg4/preview/MainActivity$1.class
 classes/com/mg4/preview/MainActivity$2.class
+classes/com/mg4/preview/MainActivity$SoftGlow.class
 classes/com/mg4/preview/MainActivity.class
