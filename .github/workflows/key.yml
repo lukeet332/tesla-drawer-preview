@@ -1,0 +1,19 @@
+name: key-frames
+on: workflow_dispatch
+jobs:
+  key:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Key out the render background
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+          mkdir -p keyed
+          for i in $(seq -w 1 12); do
+            ffmpeg -y -i spin/s_$i.png -vf "colorkey=0x0b0f14:0.10:0.05,format=rgba" keyed/k_$i.png
+          done
+          ls -l keyed | head -4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: keyed
+          path: keyed/*.png
