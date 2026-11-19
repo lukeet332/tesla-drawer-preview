@@ -16,7 +16,7 @@ jobs:
             adb shell svc power stayon true
             sleep 20
             adb install -r launcher.apk
-            adb shell am start -n com.mg4.launcher/.AnimDemoActivity
+            adb shell am start -n com.mg4.launcher/.AdasDemoActivity
             sleep 6
             adb shell input keyevent KEYCODE_WAKEUP
             adb shell wm dismiss-keyguard || true
