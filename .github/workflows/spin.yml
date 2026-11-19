@@ -9,7 +9,7 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y ffmpeg
           mkdir -p spin
-          ffmpeg -y -i carica-camden-grey-notte-aggancio.mp4 -vf "fps=6,scale=800:-1" spin/s_%02d.png
+          ffmpeg -y -i carica-camden-grey-notte-aggancio.mp4 -vf "fps=30,scale=640:-1" spin/s_%02d.png
           ls spin | wc -l
       - uses: actions/upload-artifact@v4
         with:
