@@ -1,0 +1,17 @@
+name: spin-frames
+on: workflow_dispatch
+jobs:
+  frames:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract turning frames
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+          mkdir -p spin
+          ffmpeg -y -i carica-camden-grey-notte-aggancio.mp4 -vf "fps=6,scale=800:-1" spin/s_%02d.png
+          ls spin | wc -l
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spin
+          path: spin/*.png
