@@ -25,6 +25,7 @@ jobs:
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 3
             adb shell dumpsys window | grep mCurrentFocus
+            adb shell input tap 632 421
             adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
             sleep 1
             adb exec-out screencap -p > day.png
@@ -35,9 +36,7 @@ jobs:
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 7
             adb pull /sdcard/v.mp4 v.mp4 >/dev/null 2>&1 || true
-            mkdir -p frames
-            ffmpeg -y -i v.mp4 -vf fps=8 frames/f_%02d.png >/dev/null 2>&1 || true
-            ls frames | head
+            adb shell input tap 632 421
             adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
             sleep 1
             adb exec-out screencap -p > shot.png
@@ -53,5 +52,4 @@ jobs:
           path: |
             *.png
             v.mp4
-            frames/*.png
             crash.txt
