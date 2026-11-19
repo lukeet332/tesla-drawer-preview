@@ -14,6 +14,7 @@ jobs:
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -skin 1920x720
           script: |
+            sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 || true
             adb shell settings put global hide_error_dialogs 1
             adb shell wm size 1920x720
             adb shell wm density 160
@@ -30,6 +31,9 @@ jobs:
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 8
             adb pull /sdcard/v.mp4 v.mp4 >/dev/null 2>&1 || true
+            mkdir -p frames
+            ffmpeg -y -i v.mp4 -vf fps=10 frames/f_%02d.png >/dev/null 2>&1 || true
+            ls frames | head -3
             adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
             sleep 1
             adb exec-out screencap -p > shot.png
@@ -49,3 +53,4 @@ jobs:
           path: |
             *.png
             v.mp4
+            frames/*.png
