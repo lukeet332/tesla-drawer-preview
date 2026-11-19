@@ -18,12 +18,15 @@ jobs:
             adb shell wm size 1920x720; adb shell wm density 160
             adb shell cmd uimode night no
             adb shell wm density 160
+            sleep 15
             adb install -r build/preview.apk
             adb shell settings put global hide_error_dialogs 1; adb shell am start -n com.mg4.preview/.MainActivity
             sleep 8
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 3
             adb shell dumpsys window | grep mCurrentFocus
+            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
+            sleep 1
             adb exec-out screencap -p > day.png
             adb shell cmd uimode night yes
             adb shell am force-stop com.mg4.preview
@@ -32,6 +35,8 @@ jobs:
             adb shell am start -n com.mg4.preview/.MainActivity
             sleep 7
             adb pull /sdcard/v.mp4 v.mp4 >/dev/null 2>&1 || true
+            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1
+            sleep 1
             adb exec-out screencap -p > shot.png
             adb logcat -d -b crash > crash.txt 2>&1 || true
             adb logcat -d | grep -A5 "AndroidRuntime" | tail -40 >> crash.txt 2>&1 || true
